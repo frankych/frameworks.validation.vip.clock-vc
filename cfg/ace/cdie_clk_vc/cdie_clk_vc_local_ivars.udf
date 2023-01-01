@@ -1,0 +1,146 @@
+# Paths for DVT RTL Unit testing; adds content to the Eclipse Project for visibility / autocompletion
+my $vunit_path = ToolConfig::ToolConfig_get_tool_path('vunit');
+
+%audf = (
+    Includes => [
+        "$ENV{ACE_PROJECT}:cfg/ace/$ENV{ACE_PROJECT}/tools.dvt.local_ivars.udf",
+    ],
+    HDLSpec => {
+        -src_type => {
+            # Add extensions that you use for include files; ACE only looks at
+            # .v (for Verilog) and .sv,.svh,.vh,.sv (for SystemVerilog) by default
+            SystemVerilog => {
+                -extension => '/\.(?:svh?|v[sh])$/',
+            },
+            Verilog => {
+                -extension => '\.v$',
+            },
+        },
+    },
+    InterfaceVars => {
+        ## visa options
+        -add_flag_dump                    => { default => 1 },
+        ## -dump_compiler_tags makes sure visa inserted libs don't apply options from all compilers
+        -dump_compiler_tags               => { default => 1 },
+        -dump_rtl_include_prereqs         => { default => 1 },
+        -enable_generate_rtl              => { default => 1 },
+        -en_verdi_UFE_without_simv        => { default => 1 },
+        -gen_results_ipdir                => { default => "<-eng>/<-pwa>/tools/visa/outputs/GenRTL" },
+        -model_make_opts                  => { default => ["-r", "-R",] },
+        -parallel_model_ini_writes        => { default => 1 },
+        -designdb_action_in_test          => { default => "unfold" },
+        -non_zero_exit_for_unknown_option => { default => 1 },
+        ## end visa options
+
+        -vlog_opts => {
+            default => [
+                '\<vcs\>-kdb', # static database for Verdi (compile design)
+                '\<debussy\>-2012', ## needed for saola 16.2.13
+                "+libext+.v+.vh+.vs+.sv+.svh",
+                "-assert svaext", # support assert final
+                '+define+IOSF_SB_ENHANCEMENT',
+                '+define+IOSF_SVC_DONT_INCLUDE_ADDITIONAL_AGENT_INSTANCES',
+            ]
+        },
+        -elab_opts => { default => [ "$ENV{UVM_HOME}/src/dpi/uvm_dpi.cc -CFLAGS -DVCS",  ##workaround for UVM DPI issue
+                                     "-P $ENV{MODEL_ROOT}/cfg/ace/pli.tab",
+                                     "-debug_access+all",
+                                   ],
+        },
+
+        -simv_args => {
+            default => [
+                '+vcs+lic+wait'
+            ],
+        },
+        -name_of_test_plusarg => {
+            default => "UVM_TESTNAME",
+        },
+        -models_to_compile   => {  default => [ 'cdie_clk_vc_model' ], },
+
+        ## -post_process_pattern_file is needed by zircon2.08 (MAT 1.4)
+        -post_process_pattern_file => { default => "$ENV{MODEL_ROOT}/cfg/ace/cdie_clk_vc_postsim.pp" },
+
+        -static_check_cfg_file => {
+            default => [
+                "$ENV{LINTRARULES}/cfg/ace_static_check.lintra.cfg",
+                "$ENV{ISAF_SPYGLASS_METHODOLOGY}/ace_static_check.cfg",
+            ],
+        },
+        -spyglass_compile_opts => {
+            merging => "APPEND",
+            #EXAMPLE: 'set_option enableSV09 yes'
+            default => [ ],
+        },
+        -vclp_compile_command_args => {
+            merging => "APPEND",
+            default => [
+                '-full64',
+                '-lic_wait 2',
+            ],
+        },
+        -test_in_model => { default => 1 },
+        
+        -fsdb => {
+            help => {
+                desc => "link debussy pli and dump fsdb",
+                group => "DEBUSSY",
+            },
+            prototype => "TEST",
+            overridable => {
+                alias => "-fsdb_on -simv_args +fsdb=test.fsdb,+fsdb+all=on,+fsdb+force,+fsdb+mda=on", #-nocleanup
+            },
+        },
+                             
+        -enable_debussy => {
+            default => 1,
+        },
+        
+        -run_with_gui => {
+             type => "BOOLEAN",
+             shortcut => "gg",
+             alias => '-sd gui -noenable_debussy -test_elab_opts_first "-debug_access+all" -test_elab_opts_first -debug_region=cell+lib+encrypt',
+         },
+         -run_with_verdi_gui => {
+             type => "BOOLEAN",
+             shortcut => "ggv",
+             alias => '-sd verdi -noenable_debussy -test_elab_opts_first "-debug_access+all" -test_elab_opts_first -debug_region=cell+lib+encrypt -test_elab_opts -kdb',
+        },
+        
+        $ENV{ACE_PROJECT} => {
+            __PROTOTYPES => {
+                import => ["TEST","LOWPOWER","CDC","MY_GLOBALS"],
+            },
+            -test_vlog_opts => {
+                default => [
+                ],
+            },
+            -test_elab_opts => {
+                default => [
+                    '+vcs+lic+wait'
+                ],
+            },
+            -model => {
+                default => "cdie_clk_vc_model",
+            },
+            -dut => {
+                default => "cdie_clk_vc",
+            },
+            -spyglass_goals => {
+                clear_default => 1,
+                default => [],
+            },
+            -spyglass_exe_opts => {
+                default =>[
+                    "set_option enable_vlog_config yes",
+                    "set_option write_vlog_config_report yes",
+                    "set_option no_strict_sgdc_check yes", ## can be needed to support different ctechs
+                ],
+            },
+            -test_elab_fsdb_opts => {
+                default => ["-debug_access+pp+dmptf", "-debug_region=cell+lib+encrypt", "-kdb",],
+                clear_default => 1,
+            },            
+        },
+    },
+);

@@ -1,0 +1,17 @@
+[INCLUDES]
+$WORKAREA/baseline_tools/runtools/tool.cth
+
+[PARAMS]
+repo_trex_output = regression/%DUT%/trex
+post_process_pattern_file = $WORKAREA/cfg/post_process.pp
+build_test_timeout = 10m
+trex_first_include_files = $WORKAREA/flows/runtools/global_test_opts.to
+trex_macros = $WORKAREA/flows/runtools/trex_macros
+TREX_MACROS_DEFINED_DEBUG = 1
+
+[TOOLVERSION]
+runtools = 3.03.00
+
+[Envs]
+PATH = envs(RUNTOOLS_PATH):envs(JESTR_PATH):$PATH
+UVM_HOME = $WORKAREA/subip/vip/uvm

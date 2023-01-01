@@ -1,0 +1,15 @@
+###########################################################
+# NOTE:  This file is not auto-generated.  Any new unit_tests
+# directories which are added must be added to the reglist.
+# Support for manual checking of unit test directories and
+# automation of the unit test dirs is a TODO.
+############################################################
+
+.defaults
+.options
+
++defaults -seed 1
++defaults -noexist
++defaults -m $MODEL_ROOT/scripts/vunitrun -ms $RTL_PROJ_TOOLS/vunit/1.08/scripts/vunit_wrapper.py --no-cleanup -targetdir \\$TEST_WORK_AREA -ms-
+
+cdie_pm_vc_vunit_tests -ms -testdir $MODEL_ROOT/src/verif/unit_tests -vlog_opts \"-f $MODEL_ROOT/src/verif/unit_tests/unit_test_vlog_opts.f\"  -simv_args \"-f  $MODEL_ROOT/src/verif/unit_tests/unit_test_simv_args.f\"  -ms-

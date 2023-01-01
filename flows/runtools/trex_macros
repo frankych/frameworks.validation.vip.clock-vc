@@ -1,0 +1,3 @@
+-fsdb => -simv_args +fsdb -simv_args-
+
+__TREX_PREPEND__ => -dut cdie_pm_vc -model cdie_clk_vc_model

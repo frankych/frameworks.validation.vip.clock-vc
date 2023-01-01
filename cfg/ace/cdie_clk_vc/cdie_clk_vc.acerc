@@ -1,0 +1,50 @@
+use lib "$ENV{RTL_PROJ_BIN}/perllib";
+use ToolConfig();
+use lib ToolConfig::get_tool_path('project_baseline_tools'). "/tools/dvt";
+
+%acerc = (
+    UDF => [
+        "cfg/ace/$ENV{ACE_PROJECT}/$ENV{ACE_PROJECT}.udf",
+    ],
+
+    LIBS => [
+        "cfg/ace/lib",
+    ],
+
+    SUB_SCOPES => {
+        subscopes => {
+            $ENV{ACE_PROJECT} => [
+                "uvm",
+                "ovm",
+		        "saola",
+                "IOSF_SVC",
+                "sipmanager",
+                "sv_pydoh_infra",
+            ],
+        },
+    },
+
+    # Ace automatically places $ACE_ENG/$ACE_PWA_DIR in the
+    # available search paths
+    SEARCH_PATHS => {
+        $ENV{ACE_PROJECT} => [
+            "$ENV{MODEL_ROOT}",
+            "$ENV{ACE_ENG}/$ENV{ACE_PWA_DIR}",
+        ],             
+        sipmanager => [ToolConfig::get_tool_var("ipconfig/sipmanager",   "SEARCH_PATHS")],
+        uvm => [ ToolConfig::get_tool_var('ipconfig/uvm',   'SEARCH_PATHS') ],
+        ovm               => [ ToolConfig::get_tool_var('ipconfig/ovm',   'SEARCH_PATHS') ],
+	    saola             => [ ToolConfig::get_tool_var('ipconfig/saola', 'SEARCH_PATHS') ],
+	    IOSF_SVC          => [ ToolConfig::get_tool_var('ipconfig/IOSF_SVC', 'SEARCH_PATHS') ],
+	    sv_pydoh_infra => [ ToolConfig::get_tool_path('ipconfig/vc_sv_pydoh_infra', 'SEARCH_PATHS') ],
+    },
+    TEST_PATTERNS => [ 'verif/tests', 
+    ],
+
+    # Custom settings
+    'HDLSPEC_FILE_READING_RETRY_DELAY' => '5',
+    'HDLSPEC_FILE_READING_RETRY_LIMIT' => '3',
+    'ENABLE_RECURSIVE_DEP_LIBS' => 1,
+    'ENABLE_PWA_DIR_SP_OVERRIDE' => 1, ## enable ace to not force the addition of <-eng>/<-pwa> as the first search path of ACE_PROJECT scope
+
+);

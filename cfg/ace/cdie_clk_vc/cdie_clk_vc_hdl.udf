@@ -1,0 +1,75 @@
+my $PROJECT = 'cdie_clk_vc';
+
+my $nebulon_output_dir = "tools/onesource/outputs/cdie_clk_vc_cr_sys_top";
+my $vc_sv_pydoh_infra_path = ToolConfig::get_tool_path("ipconfig/vc_sv_pydoh_infra");
+
+%audf = (
+    InterfaceVars => {
+    },
+    HDLSpec => {
+        $PROJECT => {
+          libs => {
+                sip_shared_lib => {
+                    -tag => &ToolConfig::get_tool_var("vc_vars", "TYPICAL_SVTB_TAGS"),
+                    -dependent_libs => ['uvm_val_lib', 'IOSF_SVC_val_lib'],
+                    -vlog_files     => ['verif/tb/sip_shared_lib_imports.vh'],
+                    -vlog_incdirs   => ["$ENV{UVM_HOME}/src",],
+                    -vlog_opts      => ['-sverilog', '-timescale=1ps/1ps'],
+                },
+                cdie_clk_vc_cpp_build_lib => {
+                    -script => [
+                        "bin/prebuild/prebuild.py",
+                    ],
+                },              
+                cdie_clk_vc_lib => {
+                    -tag            => &ToolConfig::get_tool_var("vc_vars", "TYPICAL_SVTB_TAGS"),
+                    -vlog_files    => ['src/cdie_clk_vc_env_pkg.sv',
+                                       'verif/tb/cdie_clk_vc_ti.sv',
+                                      ],
+                    -vlog_incdirs  => ["$ENV{UVM_HOME}/src",
+                                       "$vc_sv_pydoh_infra_path/src/verif/includes",
+                                       'src/',                                       
+                                       'src/configs',
+                                       'src/seqlib',],                                      
+                    -dependent_libs => ['sip_shared_lib', 'sv_pydoh_infra_lib'], 
+                    -vlog_opts     => ['-sverilog', '-timescale=1ps/1ps'],
+                },
+                cdie_clk_vc_val_lib => {
+                    -tag            =>  &ToolConfig::get_tool_var("vc_vars", "TYPICAL_SVTB_TAGS"),
+                    -vlog_files     => ['verif/tb/env/cdie_clk_vc_val_pkg.sv',
+                                        'verif/tb/cdie_clk_vc_tb.sv',
+                                        ],
+                    -vlog_incdirs   => ['verif/tb',                                                                                                                      
+                                        'lib/Verilog',
+                                        'verif/tests',
+                                        'verif/tb/env',
+                                        'verif/tb/seqlib',
+                                        'verif/tb/seqlib/gpsb_sequences',
+                                        'verif/tb/seqlib/pmsb_sequences',        
+                                        "$ENV{UVM_HOME}/src"],
+                    -vlog_lib_dirs  => ['verif/tb/sb_modules'],
+                    -dependent_libs => ['sip_shared_lib', 'cdie_clk_vc_lib'],
+                    -vlog_opts      => ['-sverilog', '-timescale=1ps/1ps'],
+                },  
+            }, # end libs
+            models => {
+                cdie_clk_vc_model => {
+                    top => 'cdie_clk_vc_val_lib.cdie_clk_vc_tb',
+                    libs => ['cdie_clk_vc_lib', 'cdie_clk_vc_val_lib', 'sip_shared_lib', 'cdie_clk_vc_cpp_build_lib'],
+                    use => ['uvm:uvm',
+                            'IOSF_SVC:IOSF_SVC',
+                            'sv_pydoh_infra:sv_pydoh_infra_model',],
+                    export => {
+                        libs => ['cdie_clk_vc_lib'],
+                        use  => ['uvm:uvm'],
+                    },
+                    pli_libs => [ '-hier_rtl_dumper',
+                                  '-debussy_pli_libs', ],
+                    elab_opts => [
+                        "$ENV{MODEL_ROOT}/src/dpi/cdie_libsv_adapter.so",
+                    ],
+                },
+            }, #end models
+        }, #end $PROJECT
+    }, # end HDLSpec
+);

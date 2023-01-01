@@ -1,0 +1,7 @@
+
+%audf = (
+    Includes => [ "cfg/ace/$ENV{ACE_PROJECT}/$ENV{ACE_PROJECT}_integ.udf",
+                  "cfg/ace/global_ivars.udf",
+                  "cfg/ace/$ENV{ACE_PROJECT}/$ENV{ACE_PROJECT}_local_ivars.udf",
+    ],
+);

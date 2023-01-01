@@ -1,0 +1,38 @@
+---
+# Starter dvt.yml file for DVT Eclipse launcher dvt_cth
+# This file needs to be in the <project>/cfg/dvt/ directory
+# For more information visit goto/dvt
+
+heap_size: 8G
+
+languages:
+  - vlog
+
+pre_build_include:
+  # This goes at the beginning of the build file
+  - +dvt_build_log_to_file+false
+  - +dvt_file_compile_timeout+90
+  - +dvt_semantic_checks_timeout+120
+
+env_vars:
+  LM_PROJECT: DDG-MTL
+
+exclude:
+  name:
+    - GATEKEEPER
+    - MockTurnin*
+    - results
+    - regression
+    - output*
+  projectRelativePath:
+    - subip
+    - subsystems
+    - syn
+    - integration
+    - power
+    - register
+    - static
+    - dfx
+    - emu
+    - handoff
+

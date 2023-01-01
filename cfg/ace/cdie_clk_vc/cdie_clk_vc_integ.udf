@@ -1,0 +1,10 @@
+
+%audf = (
+    Includes => [ 'uvm:cfg/ace/uvm/uvm_hdl.udf',
+		          'saola:cfg/ace/saola/saola_hdl.udf',
+		          'IOSF_SVC:cfg/uvm/cfg/ace/IOSF_SVC/IOSF_SVC_hdl.udf',
+                  "sipmanager:cfg/ace/sipmanager/sipmanager_integ.udf",
+                  'sv_pydoh_infra:cfg/ace/sv_pydoh_infra/sv_pydoh_infra_hdl.udf',
+                  'cdie_clk_vc:cfg/ace/cdie_clk_vc/cdie_clk_vc_hdl.udf',
+    ],
+);

@@ -1,0 +1,9 @@
+[includes]
+../../baseline_tools/vcssim/tool.cth
+
+[params]
+ovrd_no_handoff_file = 2
+
+[envs]
+UVM_HOME = $WORKAREA/subip/vip/uvm
+VC_SV_PYDOH_INFRA = $WORKAREA/subip/vip/vc_sv_pydoh_infra

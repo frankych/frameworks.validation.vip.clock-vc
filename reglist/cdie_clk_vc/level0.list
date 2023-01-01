@@ -1,0 +1,36 @@
++defaults -model cdie_pm_vc_model -dut cdie_pm_vc -seed 1
+
+$WORKAREA/verif/tests/cdie_pm_vc_cold_boot_test.sv
+$WORKAREA/verif/tests/cdie_pm_vc_pkgc_test.sv
+$WORKAREA/verif/tests/cdie_pm_vc_warm_reset_test.sv
+$WORKAREA/verif/tests/cdie_pm_vc_warm_reset_pkgc_test.sv
+$WORKAREA/verif/tests/cdie_pm_vc_sx_test.sv
+$WORKAREA/verif/tests/cdie_pm_vc_cold_reset_test.sv
+$WORKAREA/verif/tests/cdie_pm_vc_global_reset_test.sv
+$WORKAREA/verif/tests/cdie_pm_vc_dc1_test.sv
+$WORKAREA/verif/tests/cdie_pm_vc_dc3_abort_test.sv
+$WORKAREA/verif/tests/cdie_pm_vc_dc3_popup_test.sv
+$WORKAREA/verif/tests/cdie_pm_vc_dc3_test.sv
+$WORKAREA/verif/tests/cdie_pm_vc_dc6_test.sv
+$WORKAREA/verif/tests/cdie_pm_vc_dc6_popup_test.sv
+$WORKAREA/verif/tests/cdie_pm_vc_cr_access_test.sv
+$WORKAREA/verif/tests/cdie_pm_vc_cbo_response_test.sv
+$WORKAREA/verif/tests/cdie_pm_vc_dvfs_test.sv
+$WORKAREA/verif/tests/cdie_pm_vc_user_svid_test.sv
+
++options -simv_args +global_ep -simv_args- -dirtag global_ep -seed 1
+$WORKAREA/verif/tests/cdie_pm_vc_cold_boot_test.sv
+$WORKAREA/verif/tests/cdie_pm_vc_pkgc_test.sv
+$WORKAREA/verif/tests/cdie_pm_vc_warm_reset_test.sv
+$WORKAREA/verif/tests/cdie_pm_vc_warm_reset_pkgc_test.sv
+$WORKAREA/verif/tests/cdie_pm_vc_sx_test.sv
+$WORKAREA/verif/tests/cdie_pm_vc_dc1_test.sv
+$WORKAREA/verif/tests/cdie_pm_vc_dc3_abort_test.sv
+$WORKAREA/verif/tests/cdie_pm_vc_dc3_popup_test.sv
+$WORKAREA/verif/tests/cdie_pm_vc_dc3_test.sv
+$WORKAREA/verif/tests/cdie_pm_vc_dc6_test.sv
+$WORKAREA/verif/tests/cdie_pm_vc_dc6_popup_test.sv
+$WORKAREA/verif/tests/cdie_pm_vc_cr_access_test.sv
+$WORKAREA/verif/tests/cdie_pm_vc_cbo_response_test.sv
+$WORKAREA/verif/tests/cdie_pm_vc_user_svid_test.sv
+.options

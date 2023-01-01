@@ -1,0 +1,6 @@
+-sverilog
++define+IOSF_SB_ENHANCEMENT
++define+IOSF_SVC_DONT_INCLUDE_ADDITIONAL_AGENT_INSTANCES
++define+INTEL_SIMONLY
+-timescale=1ps/1ps
+-kdb

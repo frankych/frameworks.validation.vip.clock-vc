@@ -1,0 +1,14 @@
+-ms 
+    -test_name_plusarg UVM_TESTNAME
+-ms-
+
+# global simv_args applicable to all DUTs/models
+-simv_args
+    +UVM_NO_RELNOTES
+-simv_args-
+
+-ms
+#    -post_process_parser "perl $WORKAREA/cfg/postsim_wrapper.pl"
+-ms-
+
+-link
